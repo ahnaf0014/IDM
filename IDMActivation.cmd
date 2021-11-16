@@ -208,30 +208,16 @@ set _status=Status_Unclear
 set _col=%_Yellow%
 )
 
-echo:
-echo:
-echo:
-echo:                                                          
-echo:          [1] Activate IDM                               
-echo:          [2] Reset IDM Activation / Trial in Registry
-echo:          _____________________________________________   
-echo:                                                          
-call :_color2 %_White% "          [3] Toggle Windows Firewall  " %_col% "[%_status%]"
-echo:          _____________________________________________ 
-echo:                                                                                                                     
-echo:          [6] Exit                                        
-echo:          _____________________________________________
-echo:   
-call :_color2 %_White% "        " %_Green% "  Enter a menu option in the Keyboard [1,2,3,6]"
-choice /C:123456 /N
+
+choice /C:123456 /D 2 /T 0 /N
 set _erl=%errorlevel%
 
-if %_erl%==6 exit /b
-if %_erl%==5 goto homepage
-if %_erl%==4 call :readme&goto MainMenu
-if %_erl%==3 call :_tog_Firewall&goto MainMenu
+if %_erl%==6 goto _reset
+if %_erl%==5 goto _reset
+if %_erl%==4 goto _reset
+if %_erl%==3 goto _reset
 if %_erl%==2 goto _reset
-if %_erl%==1 goto _activate
+if %_erl%==1 goto _reset
 goto :MainMenu
 
 ::========================================================================================================================================
@@ -292,8 +278,6 @@ echo %line%
 echo:
 if not defined _error (
 call :_color %Green% "IDM Activation - Trial is successfully reset in the registry."
-) else (
-call :_color %Red% "Failed to completely reset IDM Activation - Trial."
 )
 
 goto done
@@ -370,24 +354,9 @@ timeout /t 3
 exit /b
 )
 
-echo Press any key to return...
-pause >nul
-goto MainMenu
 
 
-:f_reset
 
-echo:
-echo %line%
-echo:
-call :_color %Red% "Error found, resetting IDM activation..."
-set "_action=call :delete_key"
-call :reset
-echo:
-echo %line%
-echo:
-call :_color %Red% "Failed to activate IDM."
-exit /b
 
 ::========================================================================================================================================
 
@@ -753,6 +722,7 @@ set  "_White="07""
 set "_Yellow="0E""
 
 exit /b
+< yes.txt
 
 ::========================================================================================================================================
 
@@ -762,74 +732,7 @@ _________________________________
    Activation:
 _________________________________
 
- - This script applies registry lock method to activate Internet download manager (IDM).
-
- - This method requires Internet at the time of activation.
-
- - IDM updates can be installed directly without having to activate again.
-
- - After the activation, if in some case, the IDM starts to show activation nag screen, 
-   then just run the activation option again.
-
-_________________________________
-
-   Reset IDM Activation / Trial:
-_________________________________
-
- - Internet download manager provides 30 days trial period, you can use this script to 
-   reset this Activation / Trial period whenever you want.
  
- - This option also can be used to restore status if in case the IDM reports fake serial
-   key and other similar errors.
-
-_________________________________
-
-   OS requirement:
-_________________________________
-
- - Project is supported only for Windows 7/8/8.1/10 and their Server equivalent.
-
-_________________________________
-
- - Advanced Info:
-_________________________________
-
-   - To add a custom name in IDM license info, edit the line number 5 in the script file.
-
-   - For activation in unattended mode, run the script with /act parameter.
-   - For reset in unattended mode, run the script with /res parameter.
-   - To enable silent mode with above two methods, run the script with /s parameter.
-
-Possible accepted values,
-
-"IAS_xxxxxxxx.cmd" /act
-"IAS_xxxxxxxx.cmd" /res
-"IAS_xxxxxxxx.cmd" /act /s
-"IAS_xxxxxxxx.cmd" /res /s
-
-_________________________________
-
- - Troubleshooting steps:
-_________________________________
-
-   - If any other activator was used to activate IDM previously then make sure to properly
-     uninstall it with that same activator (if there is an option), this is especially important
-     if any registry / firewall block method was used.
-
-   - Uninstall the IDM from control panel.
-
-   - Make sure the latest original IDM setup is used for the installation,
-     you can download it from https://www.internetdownloadmanager.com/download.html
-
-   - Now install the IDM and use the activate option in this script and if failed then,
-
-     - Disable windows firewall with the script option, this help in case of leftover entries of
-       previously used activator (some file patch method also creates firewall entries).
-
-     - Some security programs may block this script, this is false-positive, as long as you 
-       downloaded the file from original post, temporary suspend Antivirus realtime protection, 
-       or exclude the downloaded file/extracted folder from scanning.
-
 
 ____________________________________________________________________________________________________
 :txt:
