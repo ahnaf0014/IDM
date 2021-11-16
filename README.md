@@ -1,4 +1,8 @@
- - Troubleshooting steps:
+ Modified to use alongside Task Scheduler (Only Reset)
+ 
+- Create a new task with admin privileges
+
+- Troubleshooting steps:
 _________________________________
 
    - If any other activator was used to activate IDM previously then make sure to properly
